@@ -58,10 +58,13 @@ function Signup() {
       lastName: "",
       email: "",
     },
+    onSubmit: (values) => {
+      console.log(values);
+    },
   });
   console.log(formik.values);
   return (
-    <form>
+    <form onSubmit={formik.handleSubmit}>
       <div>
         <input
           className="signup"
@@ -96,6 +99,9 @@ function Signup() {
           value={formik.values.email}
         />
       </div>
+      <button type="submit" className="signup">
+        Submit
+      </button>
     </form>
   );
 }
