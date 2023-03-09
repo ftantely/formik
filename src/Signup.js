@@ -1,55 +1,7 @@
 import React from "react";
 import "./signup.css";
 import { useFormik } from "formik";
-
-/*
-function Signup() {
-  const [firstName, setFirstName] = useState("");
-  console.log(firstName);
-  const [lastName, setLastName] = useState("");
-  console.log(lastName);
-  const [email, setEmail] = useState("");
-  console.log(email);
-  return (
-    <form>
-      <div>
-        <input
-          className="signup"
-          id="firstName"
-          name="firstName"
-          type="text"
-          placeholder="First Name"
-          onChange={(e) => setFirstName(e.target.value)}
-          value={firstName}
-        />
-      </div>
-      <div>
-        <input
-          className="signup"
-          id="lastName"
-          name="lastName"
-          type="text"
-          placeholder="Last Name"
-          onChange={(e) => setLastName(e.target.value)}
-          value={lastName}
-        />
-      </div>
-        <div>
-        <input
-          className="signup"
-          id="email"
-          name="email"
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-      </div>
-    </form>
-  );
-}
-export default Signup;
-*/
+import * as Yup from "yup";
 
 function Signup() {
   const formik = useFormik({
@@ -58,8 +10,16 @@ function Signup() {
       lastName: "",
       email: "",
     },
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      lastName: Yup.string()
+        .max(20, "Must be 15 characters or less")
+        .required("Required"),
+    }),
     onSubmit: (values) => {
-      console.log(values);
+      console.log(formik.touched);
     },
   });
   console.log(formik.values);
@@ -74,7 +34,11 @@ function Signup() {
           placeholder="First Name"
           onChange={formik.handleChange}
           value={formik.values.firstName}
+          onBlur={formik.handleBlur}
         />
+        {formik.touched.firstName && formik.errors.firstName ? (
+          <p>{formik.errors.firstName}</p>
+        ) : null}
       </div>
 
       <div>
@@ -86,7 +50,11 @@ function Signup() {
           placeholder="Last Name"
           onChange={formik.handleChange}
           value={formik.values.lastName}
+          onBlur={formik.handleBlur}
         />
+        {formik.touched.lastName && formik.errors.lastName ? (
+          <p>{formik.errors.lastName}</p>
+        ) : null}
       </div>
       <div>
         <input
@@ -97,7 +65,11 @@ function Signup() {
           placeholder="Email"
           onChange={formik.handleChange}
           value={formik.values.email}
+          onBlur={formik.handleBlur}
         />
+        {formik.touched.email && formik.errors.email ? (
+          <p>{formik.errors.email}</p>
+        ) : null}
       </div>
       <button type="submit" className="signup">
         Submit
